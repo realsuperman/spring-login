@@ -1,0 +1,14 @@
+version: '3.1'
+services:
+  redis:
+    container_name: login-redis
+    image: redis:latest
+    ports:
+      - '6379:6379'
+    networks:
+      - oauth
+    command: redis-server --appendonly yes
+
+networks:
+  oauth:
+    driver: bridge

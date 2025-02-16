@@ -12,23 +12,20 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class SessionLoginController {
     private final UserService userService;
+    /*
+        권한 필요 페이지 : /home, /profile
+     */
 
     // 기본 페이지 (index.html)
     @GetMapping("/")
-    public String index(HttpSession session) {
-        if (session.getAttribute("user") != null) {
-            return "redirect:/home"; // 로그인 상태면 home으로 이동
-        }
+    public String index() {
         return "index"; // 로그인 페이지 반환
     }
 
     // 홈 페이지 (home.html)
     @GetMapping("/home")
-    public String home(HttpSession session) {
-        if (session.getAttribute("user") == null) {
-            return "redirect:/"; // 로그인 안 했으면 로그인 페이지로 이동
-        }
-        return "home"; // home.html 반환
+    public String home() {
+        return "home";
     }
 
     // 로그인 처리
@@ -42,12 +39,9 @@ public class SessionLoginController {
         return "redirect:/home"; // 로그인 성공 시 home.html로 이동
     }
 
+    // 프로필 페이지
     @GetMapping("/profile")
-    public String profile(HttpSession session) {
-        String user = (String) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/"; // 로그인 안 했으면 로그인 페이지로 이동
-        }
+    public String profile() {
         return "profile"; // profile.html 반환
     }
 
@@ -64,5 +58,4 @@ public class SessionLoginController {
 
         return "redirect:/";
     }
-
 }
