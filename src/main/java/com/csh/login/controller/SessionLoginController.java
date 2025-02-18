@@ -2,6 +2,7 @@ package com.csh.login.controller;
 
 import com.csh.login.service.UserService;
 import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -30,12 +31,12 @@ public class SessionLoginController {
 
     // 로그인 처리
     @PostMapping("/login")
-    public String login(@RequestParam String username, @RequestParam String password, HttpSession session) {
+    public String login(@RequestParam String username, @RequestParam String password, HttpServletRequest request) {
         if (!userService.validateUser(username, password)) {
             return "redirect:/?error=1"; // 로그인 실패 시 index.html로 이동
         }
 
-        session.setAttribute("user", username); // 세션에 사용자 정보 저장
+        request.getSession().setAttribute("user", username); // 세션에 사용자 정보 저장
         return "redirect:/home"; // 로그인 성공 시 home.html로 이동
     }
 
